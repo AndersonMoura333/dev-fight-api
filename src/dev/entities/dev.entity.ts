@@ -1,9 +1,14 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-enum Gender {
+export enum Gender {
     MALE = 'masculino',
     FEMALE = 'feminino',
     OTHER = 'outro'
+}
+export enum Seniority {
+    JUNIOR = 'junior',
+    MID = 'pleno',
+    SENIOR = 'senior'
 }
 
 @Entity()
@@ -32,4 +37,18 @@ export class Dev {
         default: Gender.OTHER
     })
     gender: Gender;
+    @Column({
+        type: "enum",
+        enum: Seniority,
+        default: Seniority.JUNIOR
+    })
+    seniority: Seniority;
+    @Column({default: 0, type: "int" })
+    wins: number;
+
+    @Column({default: 0, type: "int" })
+    losses: number;
+    
+    @Column({default: 0, type: "int" })
+    draws: number;
 }

@@ -7,8 +7,9 @@ import { UpdateDevDto } from './dto/update-dev.dto';
 export class DevController {
   constructor(private readonly devService: DevService) {}
 
-  @Post()
+  @Post("register")
   create(@Body() createDevDto: CreateDevDto) {
+    console.log(createDevDto)
     return this.devService.create(createDevDto);
   }
 
@@ -19,16 +20,16 @@ export class DevController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.devService.findOne(+id);
+    return this.devService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateDevDto: UpdateDevDto) {
-    return this.devService.update(+id, updateDevDto);
+    return this.devService.update(id, updateDevDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.devService.remove(+id);
+    return this.devService.remove(id);
   }
 }

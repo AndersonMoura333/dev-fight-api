@@ -1,26 +1,33 @@
 import { Injectable } from '@nestjs/common';
 import { CreateDevDto } from './dto/create-dev.dto';
 import { UpdateDevDto } from './dto/update-dev.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Dev } from './entities/dev.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class DevService {
+  constructor(
+    @InjectRepository(Dev)
+    private devsRepository: Repository<Dev>,
+  ){}
   create(createDevDto: CreateDevDto) {
-    return 'This action adds a new dev';
+    return this.devsRepository.save(createDevDto);
   }
 
-  findAll() {
-    return `This action returns all dev`;
+  findAll(): Promise<Dev[]> {
+    return this.devsRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} dev`;
+  findOne(id: string): Promise<Dev | null> {
+    return this.devsRepository.findOneBy({id});
   }
 
-  update(id: number, updateDevDto: UpdateDevDto) {
-    return `This action updates a #${id} dev`;
+  update(id: string, updateDevDto: UpdateDevDto) {
+    return this.devsRepository.update(id, updateDevDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} dev`;
+  remove(id: string) {
+    return this.devsRepository.delete(id);
   }
 }
